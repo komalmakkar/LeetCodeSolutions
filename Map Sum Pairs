@@ -1,0 +1,74 @@
+class MapSum {
+    static final int ALPHABET_SIZE = 26;
+    TrieNode root;
+    MapSum(){
+        root = new TrieNode();
+    }
+    
+    class TrieNode{
+        TrieNode child[] = new TrieNode[ALPHABET_SIZE];
+        int sum; 
+        int totalSum;
+        TrieNode(){
+            this.sum = 0; 
+            for(int i = 0 ; i < ALPHABET_SIZE; i++ ){
+                this.child[i] = null;
+            }
+
+        }
+    }
+    
+    public void insert(String key, int val) {
+        int len = key.length();
+        TrieNode iterator = this.root;
+        for(int i = 0; i < len ; i++){
+            int index = key.charAt(i) - 'a';
+            if(iterator.child[index] == null){
+                iterator.child[index] = new TrieNode();
+            }
+            iterator = iterator.child[index];
+        }
+        iterator.sum = val; 
+    }
+    
+    int getSum(TrieNode t){
+        if(t == null){
+            return 0;
+        } else {
+            int s = 0;            
+            for(int i = 0 ; i < ALPHABET_SIZE; i++){
+                if(t.child[i] != null && t.child[i].sum != 0){
+                    s += t.child[i].sum;
+                } 
+                s += getSum(t.child[i]);
+            }
+            return s;
+        }
+    }
+    
+    public int sum(String prefix) {
+        int len = prefix.length();
+        TrieNode iterator = this.root;
+        int s = 0;
+        for (int i = 0; i < len; i++){
+            int index = prefix.charAt(i) - 'a';
+            if(iterator.child[index] != null){
+                iterator = iterator.child[index];
+                   
+            } else{
+                if(iterator.child[index] == null){
+                    return 0;
+                }
+            }
+        }
+        s = iterator.sum;
+        return s+getSum(iterator);
+    }
+}
+
+/**
+ * Your MapSum object will be instantiated and called as such:
+ * MapSum obj = new MapSum();
+ * obj.insert(key,val);
+ * int param_2 = obj.sum(prefix);
+ */
