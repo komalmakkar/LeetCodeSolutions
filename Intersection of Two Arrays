@@ -1,0 +1,24 @@
+class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+            
+        HashSet <Integer> hashSet = new HashSet<Integer>();
+        ArrayList<Integer> common = new ArrayList<Integer>();
+        if(nums1.length == 0 || nums2.length == 0)
+            return new int [0];
+        for(int num : nums1){
+            hashSet.add(num);
+        } 
+        for(int num : nums2){
+            if(hashSet.contains(num)){
+                if(!common.contains(num)){
+                    common.add(num);
+                }
+            }
+        }
+        int [] arr = new int[common.size()];
+        for(int i = 0 ; i < common.size(); i++){
+            arr[i] = common.get(i);
+        }
+        return arr;
+    }
+}
