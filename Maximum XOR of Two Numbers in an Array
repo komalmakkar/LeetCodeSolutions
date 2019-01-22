@@ -1,0 +1,57 @@
+class Solution {
+    static final int INT_SIZE = 32;
+    TrieNode root;
+    class TrieNode{
+        TrieNode bit[] = new TrieNode[2];
+        int value; 
+        TrieNode (){
+            value = 0;
+            bit[0]  = null;
+            bit[1] = null;
+        }
+    } 
+    void insert(int val){
+        TrieNode iterator = root;
+        for (int i = INT_SIZE -1 ; i >= 0; i--){
+            int currBit = val & (1 << i);
+            if(currBit >= 1){
+                currBit = 1;
+            } else currBit = 0; 
+            if(iterator != null && iterator.bit[currBit] == null){
+                iterator.bit[currBit] = new TrieNode();
+            } 
+            iterator = iterator.bit[currBit];
+        }
+        iterator.value = val;
+    }
+    int maxTrie(int val){
+        int currSum = 0;
+        TrieNode iterator = root;
+        for(int i = INT_SIZE - 1; i>= 0; i--){
+            int currBit = (val & (1 << i) ) >= 1 ? 1 : 0;
+            if(iterator.bit[1 - currBit] != null){
+                iterator = iterator.bit[1 - currBit];
+                currSum += (1 << i);
+            }
+             else {
+                 if(iterator.bit[currBit] != null){
+                    iterator = iterator.bit[currBit];
+                }    
+            }
+        }
+        return val ^ iterator.value; //currSum;//val ^ iterator.value;
+    }
+    public int findMaximumXOR(int[] nums) {
+        int maxXOR = 0; 
+        root = new TrieNode();
+        //insert first element in trie
+        insert(nums[0]);
+        for (int i = 1 ; i < nums.length; i++){
+            maxXOR = max(maxXOR, maxTrie(nums[i]));
+           insert(nums[i]);
+            
+        }
+        return maxXOR;
+    }
+    int max (int a, int b){ return a > b ? a: b; }
+}
