@@ -1,0 +1,30 @@
+class Solution {
+public:
+    
+    int maxProfit(vector<int>& prices) {
+        if (!prices.empty()){
+            cout<< "Not empty\n";
+            int n = prices.size();
+            cout<< "Size: "<< n << endl;
+            if (n>0){
+                int max = 0;
+                int s = prices[0];
+                for (int i = 1 ; i < n; i++){
+                    cout << "min :" << s << ", price [i] " <<prices[i]<<endl;
+                    s =  min(prices[i], s);
+                    if((max <  prices[i] - s ) && (prices[i] - s > 0)){
+                        max = prices[i] - s;
+                    }
+                }
+                return max;
+            }
+        }
+        return 0;
+    } 
+    int min(int a, int b){
+        return a > b ? b : a;
+    }
+    int max(int a, int b){
+        return a > b ? a : b;
+    }
+};
