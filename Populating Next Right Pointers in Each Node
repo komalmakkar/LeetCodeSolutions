@@ -1,0 +1,71 @@
+/**
+ * Definition for binary tree with next pointer.
+ * public class TreeLinkNode {
+ *     int val;
+ *     TreeLinkNode left, right, next;
+ *     TreeLinkNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    ArrayList <TreeLinkNode> list = new ArrayList<TreeLinkNode>();
+    
+    public void makeList(){
+        int count = 0;
+        int nodeCount = 1 ;
+        while(list.size() >= nodeCount){
+            if(list.get(count).val == -1){
+                TreeLinkNode node = new TreeLinkNode(-1);
+                list.add(node);
+                count++;
+            } else {
+                if(list.get(count).left!=null){
+                    list.add(list.get(count).left);
+                    count++;
+                    nodeCount++;
+                } if(list.get(count).right!=null){
+                    list.add(list.get(count).right);
+                    count++;
+                    nodeCount++;
+                }
+            }
+        }
+    }
+    
+    public void connectNodes(TreeLinkNode root){
+        if(root == null){
+            return ;
+        } else {
+            if(root.left != null){
+                root.left.next = root.right;
+            } if(root.right != null) {
+                root.right.next = (root.next != null) ? (root.next.left) : null;
+            }
+            connectNodes(root.left);
+            connectNodes(root.right);
+        }
+    }
+    
+    public void connect(TreeLinkNode root) {
+        /*if(root != null){
+        TreeLinkNode node = new TreeLinkNode(-1);
+        list.add(root);
+        list.add(node);
+        makeList();
+        int i = 0;
+        /*while(i < list.size()){
+            if(list.get(i).val == -1){
+                i++;
+                continue;
+            }
+            if(list.get(i+1).val == -1){
+                list.get(i).next = null;
+                i++;
+            } else {
+                list.get(i).next = list.get(i+1);
+                i++;
+            }
+        }
+    }*/
+    connectNodes(root);
+    }
+}
