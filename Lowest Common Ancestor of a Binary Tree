@@ -1,0 +1,64 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    
+    ArrayList<TreeNode> path1 = new ArrayList<TreeNode>();
+    ArrayList<TreeNode> path2 = new ArrayList<TreeNode>();
+    
+    public TreeNode getCommon(ArrayList<TreeNode> path1, ArrayList<TreeNode> path2){
+        int size = path1.size();
+        for(int i = 0 ; i<size ; i++){
+            if(path2.contains(path1.get(i))){
+                return path1.get(i);
+            }
+        } 
+        return null;
+    }
+    
+    public boolean populatePath(TreeNode root, int val, ArrayList<TreeNode> path){
+        if(root == null){
+            return false; 
+        }
+        if(root.left == null && root.right == null){
+            if(root.val == val){
+                path.add(root);
+                return true;
+            }
+            else {
+                return false;
+            } 
+        } 
+        if(root.val == val){
+            path.add(root);
+            return true; 
+        } else{
+            
+            boolean b = populatePath(root.left, val, path);
+            boolean b2 = populatePath(root.right, val, path);
+            if(b == true){
+                path.add(root);
+                return true;
+            } else if(b2 == true){
+                path.add(root);
+                return true;
+            }
+        } 
+        return false; 
+    }
+    
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        boolean b = populatePath(root, p.val, path1);
+        b |= populatePath(root, q.val, path2);
+        if (b)
+            return getCommon (path1, path2);
+        else 
+            return null;
+    }
+}
