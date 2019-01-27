@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    String postorder(TreeNode root, HashMap <String, Integer> map, List<TreeNode> list){
+        if(root == null){
+            return "#";
+        }
+        String val = root.val + "," + postorder(root.left, map, list) + "," + postorder(root.right, map, list) ; 
+        if(map.containsKey(val)){
+            if( map.get(val) == 1)
+                list.add(root);
+            map.put(val, map.get(val) + 1);
+        } else{
+            map.put(val, 1);
+        }
+        return val;
+    }
+    
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        List<TreeNode> list = new LinkedList<TreeNode>();
+        postorder(root, new HashMap<String, Integer>(), list );
+        return list;
+    }
+}
