@@ -1,0 +1,14 @@
+class Solution {
+    public String intToRoman(int num) {
+        String th[] = {"","M", "MM" , "MMM"};
+        String h[] = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
+        String t[] = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
+        String o[] = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+        int dth = num/1000;
+        int dh = num/100 - (10 * dth);
+        int dt = num/10 -(10*dh + 100*dth);
+        int dones = num%10; 
+        String Roman = th[dth]+ h[dh] + t[dt] + o[dones];
+        return Roman;
+    }
+}
