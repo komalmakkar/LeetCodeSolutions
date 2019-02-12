@@ -1,0 +1,28 @@
+class Solution {
+    public String convert(String s, int numRows) {
+        if(s.length() == 0 || numRows == 1) return s;
+        int row = -1 ; 
+        boolean increase = true;
+        int DP[] = new int [s.length()];
+        String zig = new String("");
+        
+        for (int i = 0 ; i < s.length(); i++){
+            row = increase ? ++row : --row ;
+            DP[i] = row;
+            if(row == 0){
+                increase = true; 
+            }
+            if(row == numRows-1){
+                increase = false;
+            }
+        }
+        for(int j = 0 ; j < numRows ; j++){
+            for (int i = 0 ; i < s.length() ; i ++){
+                if(DP[i] == j){
+                    zig = zig + s.charAt(i);
+                }
+            }
+        }
+        return zig;
+    }
+}
