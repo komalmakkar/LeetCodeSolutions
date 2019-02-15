@@ -1,0 +1,24 @@
+
+class Solution {
+    public Node flatten(Node head) {
+        if(head == null) return head;
+        Node iterator = head;
+        while ( iterator != null){
+            if(iterator.child != null){
+                Node temp = iterator.next;
+                iterator.next = flatten(iterator.child);
+                iterator.next.prev = iterator;
+                iterator.child = null;
+                while(iterator.next != null){
+                    iterator = iterator.next;
+                }
+                if(temp!=null){
+                    temp.prev = iterator;
+                    iterator.next = temp;
+                }
+            }
+            iterator = iterator.next;
+        }
+        return head;
+    }
+}
