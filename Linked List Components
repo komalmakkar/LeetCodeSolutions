@@ -1,0 +1,23 @@
+class Solution {
+    boolean inArray(int [] G , int val){
+        for (int i = 0 ; i < G.length ; i++){
+            if(G[i] == val)
+                return true;
+        } 
+        return false;
+    }
+    public int numComponents(ListNode head, int[] G) {
+        if(head == null) return 0;
+        //sort(G, 0, head.length);
+        ListNode iterator = head;
+        int count = 0;
+        while(iterator.next != null){
+            if(inArray(G, iterator.val) && !inArray(G, iterator.next.val)){
+                count++; 
+           } 
+            iterator = iterator.next;
+        }
+        if(inArray(G, iterator.val)) count++;
+        return count;
+    }
+}
