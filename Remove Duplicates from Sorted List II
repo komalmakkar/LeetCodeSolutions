@@ -1,0 +1,24 @@
+
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head == null || head.next == null) return head;
+        ListNode resultList = new ListNode(-1);
+        ListNode iterator = head;
+        ListNode iteratorResult = resultList; 
+        while(iterator != null){
+            int val = iterator.val;
+            int flag = 0;
+            while(iterator.next != null && iterator.next.val == val){
+                flag = 1;
+                iterator= iterator.next;
+                System.out.println(iterator.val);
+            } 
+            if(flag == 0){
+                iteratorResult.next = new ListNode(iterator.val);
+                iteratorResult = iteratorResult.next;
+            }
+            iterator = iterator.next;
+        }
+        return resultList.next; 
+    }
+}
