@@ -1,0 +1,31 @@
+class Solution {
+    int max (int a, int b){
+        return a > b? a : b;
+    }
+    int min (int a, int b){
+        return a > b? b : a;
+    }
+    public int trap(int[] height) {
+        if(height == null || height.length == 0) return 0;
+        if(height.length == 1 || height.length == 2) return 0;
+        int size = height.length;
+        int total = 0;
+        int dpL[] = new int[size];
+        int dpR[] = new int[size];
+        dpL[0] = height[0];
+        for(int i = 1 ; i < size ; i++){
+            dpL[i] = max(dpL[i-1], height[i-1]);
+        }
+        dpR[size-1] = height[size-1];
+        for(int i = size-2 ; i >=0 ; i--){
+            dpR[i] = max(dpR[i+1], height[i+1]);
+        }
+        for(int i = 1; i < size-1 ; i++){
+            int max = min (dpL[i], dpR[i]) - height[i];
+            if(max > 0){
+                total += max;
+            }
+        }
+        return total;
+    }
+}
