@@ -1,0 +1,29 @@
+class Solution {
+    public int[][] generateMatrix(int n) {
+        if(n == 0) return new int[0][0];
+        int [][] matrix = new int[n][n];
+        if(n == 1) {
+            matrix[0][0] =1;
+            return matrix;
+        }
+        int count = 1, U = 0 , L = 0, R = n-1, D =n-1;
+        while(U <= D && L<= R){
+            for (int i = L ; i <= R; i++){
+                matrix[U][i]= count++;
+            }
+            U++;
+            for (int i = U; i<= D; i++){
+                matrix[i][R]= count++;
+            }
+            R--;
+            for (int i = R; i >= L ; i--){
+                matrix[D][i]= count++;
+            }
+            D--;
+            for(int i = D; i >= U; i--){
+                matrix[i][L]= count++;
+            }
+            L++;
+        } return matrix;
+    }
+}
