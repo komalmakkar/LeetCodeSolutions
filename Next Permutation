@@ -1,0 +1,44 @@
+class Solution {
+    int getPivot(int []nums){
+        int i = nums.length - 2;
+        while( i >= 0){
+            if(nums[i] < nums[i+1]) return i;
+            i--;
+        }
+        return -1;
+    }
+    public void nextPermutation(int[] nums) {
+        if(nums == null || nums.length <= 1 ) return;
+        int pivot = getPivot(nums);
+        if(pivot <0){
+            reverse(nums, 0, nums.length-1);
+        }
+        else{
+            int greater = findGreater(nums, pivot);
+            swap(nums,pivot,greater);
+            reverse(nums,pivot+1, nums.length-1);
+        }
+    }
+    int findGreater(int nums[],int pivot){
+        int n = nums[pivot];
+        int i = nums.length - 1;
+        while(pivot < i){
+            if(nums[i] > n)
+                return i;
+            i--;
+        }
+        return -1;
+    }
+    void reverse(int[] nums, int start, int end){
+        for (int i = 0; i < ((end - start)/2) +1; i++){
+            swap(nums,start + i, end-i );
+        }
+    }
+    void swap(int[] nums, int i, int j){
+        if(i != j){
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+        } 
+    }
+}
