@@ -1,0 +1,23 @@
+class Solution {
+    void recur(List<String> list, int open, int close, int closed, int n, String s ){
+        if(closed == n){
+            list.add(s);
+        } else {
+            if(open < n){
+                recur(list, open+1,close, closed, n , new String(s+"("));
+            }
+            if(open > close){
+                recur(list,open, close+1, closed+1, n,new String( s+")"));
+            }
+        }
+    }
+    public List<String> generateParenthesis(int n) {
+        List<String> list = new ArrayList<String>();
+        if( n == 0){ 
+            list.add(new String(""));
+            return list;
+        }
+        recur(list, 1,0,0,n, new String("(")); 
+        return list;
+    }
+}
