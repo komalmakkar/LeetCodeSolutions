@@ -1,0 +1,58 @@
+class Solution {
+    final int U, L, D, R;
+    final int X[];
+    final int Y[];
+    boolean visited[][];
+    
+    Solution(){
+        U = 0; L = 1; D = 2 ; R = 3;
+        X = new int[] {0, 1, 0 ,-1};
+        Y = new int[] {-1, 0, 1, 0}; 
+    }
+    
+    //Utility Functions
+    boolean isVisited(int row, int col){
+        return visited[row][col];
+    }
+    boolean isLand(char grid[][], int row, int col){
+        if(grid[row][col] == '1')
+            return true;
+        return false;
+    }
+    void markVisited(int row, int col){
+        visited[row][col] = true;
+    }
+    boolean isValid(char grid [][], int row, int col){
+        if (row < 0 || col < 0 || row >= grid.length || col >= grid[0].length)
+            return false;
+        return true;
+    }
+    
+    //DFS for marking an island
+    void visitIsland(char grid[][], int row, int col){
+        if(isValid(grid, row, col) && !isVisited(row, col)  && isLand(grid, row, col)){
+            markVisited(row,col);
+            visitIsland(grid, row+X[U], col+Y[U]);
+            visitIsland(grid, row+X[L], col+Y[L]);
+            visitIsland(grid, row+X[D], col+Y[D]);
+            visitIsland(grid, row+X[R], col+Y[R]);
+        }
+    }
+    public int numIslands(char[][] grid) {
+        if(grid == null || grid.length == 0 || grid[0].length == 0 ) return 0;
+        int nRows = grid.length;
+        int nCols = grid[0].length;
+        int nIslands = 0;
+        visited = new boolean[nRows][nCols];
+        
+        for (int row = 0 ; row < nRows; row++ ){
+            for (int col = 0 ; col < nCols; col++){
+                if(isLand(grid, row, col) && !isVisited(row, col)){
+                    visitIsland(grid, row, col);
+                    nIslands++;
+                }
+            }
+        }
+        return nIslands;
+    }
+}
