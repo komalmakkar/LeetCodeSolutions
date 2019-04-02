@@ -1,0 +1,37 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<Integer> boundaryOfBinaryTree(TreeNode root) {
+        List<Integer> boundaryVal = new ArrayList<Integer>();
+        if(root == null) return boundaryVal;
+        
+        boundaryVal.add(root.val);
+        boundaryPopulateDFS(root.left, true, false, boundaryVal);
+        boundaryPopulateDFS(root.right, false, true, boundaryVal);
+        
+        return boundaryVal;
+    }
+    
+    void boundaryPopulateDFS(TreeNode node, boolean isLeftBound, boolean isRightBound, List<Integer> list){
+        if(node == null) return;
+        
+        if(isLeftBound) list.add(node.val);
+        
+        boundaryPopulateDFS(node.left, isLeftBound, (isRightBound && node.right == null), list);
+        
+        if(!isLeftBound && !isRightBound && node.left== null && node.right == null)
+            list.add(node.val);
+        
+        boundaryPopulateDFS(node.right, (isLeftBound && node.left == null), isRightBound ,list);
+        
+        if(isRightBound) list.add(node.val);
+        
+    }
+}
